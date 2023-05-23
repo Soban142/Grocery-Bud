@@ -3,23 +3,28 @@ var editBtn = document.querySelector('.edit-button')
 var inputField = document.querySelector('.input-field')
 var itemContainer = document.querySelector('.item-container')
 var updates = document.querySelector('.updation')
+var clearBtn = document.querySelector('.clearBtn')
+console.log(clearBtn)
 // var editBtn = document.querySelectorAll('.editBtn')
 
 editBtn.style.display = 'none'
 
-let itemList = []
+let editedUID = null
+
+let itemList = JSON.parse(localStorage.getItem('ToDoList')) || []
+
 
 function noticeBar(noticeText) {
         console.log(noticeText)
         updates.innerHTML = noticeText
         updates.classList.remove('update-visibility')
         setTimeout(() =>{
-            updates.style.visibility = 'hidden'
+            // updates.style.visibility = 'hidden'
+            updates.classList.add('update-visibility')
         }, 2000)
-        // itemList = []
-        // itemContainer.innerHTML = ``
+        
         // `${noticeText} is added to the list.`
-    
+        // updates.classList.remove('update-visibility')
 }
 
 
@@ -45,6 +50,7 @@ function editFunction (uId) {
 }
 
 function editHandler(editedUId) {
+
     var itemToBeEdited = itemList.findIndex((findItem) => findItem.includes(editedUId));
     console.log(itemToBeEdited, 'indexNum of the item to be edit');
     
@@ -59,12 +65,22 @@ function editHandler(editedUId) {
         </button>
     </div>
 </div> `);
+    console.log(itemList);  
 
-    console.log(itemList);                                  
     itemContainer.innerHTML = itemList.join("");
 
     editBtn.style.display = 'none'
     submitBtn.style.display = 'inline-block'
+
+    localStorage.setItem('ToDoList', JSON.stringify(itemList))
+
+    noticeBar('Value has changed')
+    
+    setTimeout(() => {
+        inputField.value = ""
+    }, 1000)
+
+    
 }
 
 
@@ -81,7 +97,9 @@ function deleteFunction (uId) {
       console.log(itemList)
       itemContainer.innerHTML = itemList.join("")
       
-      noticeBar()
+      localStorage.setItem('ToDoList', JSON.stringify(itemList))
+
+      noticeBar('Item Removed')
 }
 
 
@@ -89,7 +107,7 @@ function deleteFunction (uId) {
 
 function submission() {
 
-    if (inputField.value === "") {
+    if (inputField.value === "" || inputField.value === " ") {
         noticeBar(`Please Enter Any Value`)
         return
     }
@@ -110,16 +128,33 @@ function submission() {
     </div> `
         itemList.push(items)
         itemContainer.innerHTML = itemList.join("")
+
+        
         
         noticeBar(`${inputField.value} is added to the list`)
 
         inputField.value = '';
 
+        localStorage.setItem('ToDoList', JSON.stringify(itemList))
 
+        clearBtn.classList.remove('hidden')
         
 }
 
 
+
+function clearItems() {
+    itemList = []
+    itemContainer.innerHTML = itemList.join('')
+
+    noticeBar('All items are cleared')
+
+    setTimeout(() => {
+        clearBtn.classList.add('hidden')
+    },3000)
+}
+
+clearBtn.addEventListener('click', clearItems)
 submitBtn.addEventListener('click', submission)
 
 
