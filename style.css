@@ -18,8 +18,8 @@ body{
     display: grid;
     /* justify-items: center;
     align-items: center; */
+    /* flex-direction: column; */
     place-items: center;
-    flex-direction: column;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 10px;
     margin-top: 8rem;
@@ -144,4 +144,17 @@ body{
 
 .hidden{
     visibility: hidden;
+}
+
+@media screen and (max-width: 512px){
+    .box{
+         width: 100%;
+        
+    }
+
+    .input-field{
+        width: 100%;
+        /* flex-basis: 100%; */
+    }
+    
 }

@@ -9,10 +9,11 @@ console.log(clearBtn)
 
 editBtn.style.display = 'none'
 
-let editedUID = null
 
-let itemList = JSON.parse(localStorage.getItem('ToDoList')) || []
 
+let itemList = JSON.parse(localStorage.getItem('ToDoList')) || [];
+
+let editedUId = null
 
 function noticeBar(noticeText) {
         console.log(noticeText)
